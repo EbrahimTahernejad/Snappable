@@ -6,9 +6,15 @@ internal class DraggingDetector: NSObject, UIScrollViewDelegate {
   internal var captureSnapID: (() -> SnapID?)?
   internal var flickTarget: ((CGPoint) -> SnapID?)?
   internal var scrollTo: ((SnapID?) -> Void)?
+  internal var currentCenter: ((SnapID?) -> Void)?
 
   internal init(snapMode: SnapMode) {
     self.snapMode = snapMode
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentSnapID = captureSnapID?()
+    currentCenter?(currentSnapID)
   }
 
   // MARK: UIScrollViewDelegate methods
