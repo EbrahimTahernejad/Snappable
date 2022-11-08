@@ -10,11 +10,12 @@ internal struct SnappableModifier: ViewModifier {
   @State private var childSnapAnchors: [SnapID: CGPoint] = [:]
   @State private var snapCandidateID: SnapID?
 
-  internal init(alignment: SnapAlignment, mode: SnapMode) {
+  internal init(alignment: SnapAlignment, mode: SnapMode, currentCenter: ((SnapID?) -> Void)? = nil) {
     self.snapAlignment = alignment
     self.snapMode = mode
     self.draggingDetector = DraggingDetector(snapMode: mode)
     self.coordinateSpaceName = UUID()
+    self.draggingDetector.currentCenter = currentCenter
   }
 
   internal func body(content: Content) -> some View {
